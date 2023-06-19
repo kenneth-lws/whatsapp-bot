@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+    mongo-db:
+        image: mongo:6.0-focal
+        container_name: mongo-db
+        ports:
+            - 27017:27017
+        restart: always
+    mongo-express:
+        image: mongo-express
+        restart: always
+        ports:
+            - 17017:8081
+        environment:
+            ME_CONFIG_MONGODB_URL: mongodb://mongo-db:27017
+        depends_on:
+            - mongo-db
+    redis:
+        image: redis:7.0
+        command: redis-server --requirepass password
+        ports:
+            - 6386:6379
+        restart: always
